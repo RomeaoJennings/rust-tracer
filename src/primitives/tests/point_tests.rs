@@ -2,7 +2,6 @@ use crate::primitives::Vector;
 
 use super::Point;
 
-
 #[test]
 fn new_correctly_assigns_values() {
     let expected_x = 1.23;
@@ -58,7 +57,7 @@ fn adding_point_and_vector_returns_summed_vector() {
     let z1 = -100.;
     let z2 = 54.;
 
-    let point = &Point::new(x2,y2,z2);
+    let point = &Point::new(x2, y2, z2);
     let vector = &Vector::new(x1, y1, z1);
 
     let result = vector + point;
@@ -78,7 +77,7 @@ fn subtracting_two_points_yields_difference_vector() {
     let z2 = 54.;
 
     let point1 = &Point::new(x1, y1, z1);
-    let point2 = &Point::new(x2,y2,z2);
+    let point2 = &Point::new(x2, y2, z2);
 
     let result = point1 - point2;
 
@@ -97,7 +96,7 @@ fn subtracting_vector_from_point_yields_difference_point() {
     let z2 = 54.;
 
     let point = &Point::new(x1, y1, z1);
-    let vector = &Vector::new(x2,y2,z2);
+    let vector = &Vector::new(x2, y2, z2);
 
     let result = point - vector;
 
@@ -117,4 +116,34 @@ fn negating_point_yields_negative_point() {
     assert_eq!(-x, point.x);
     assert_eq!(-y, point.y);
     assert_eq!(-z, point.z);
+}
+
+#[test]
+fn multiplying_point_by_scalar_yields_scaled_point() {
+    let x = 1.;
+    let y = -2.;
+    let z = 20.;
+
+    let scalar = 5.;
+
+    let point = &Point::new(x, y, z) * scalar;
+
+    assert_eq!(x * scalar, point.x);
+    assert_eq!(y * scalar, point.y);
+    assert_eq!(z * scalar, point.z)
+}
+
+#[test]
+fn dividing_point_by_scalar_yields_scaled_point() {
+    let x = 1.;
+    let y = -2.;
+    let z = 20.;
+
+    let scalar = 2.;
+
+    let point = &Point::new(x, y, z) / scalar;
+
+    assert_eq!(x / scalar, point.x);
+    assert_eq!(y / scalar, point.y);
+    assert_eq!(z / scalar, point.z)
 }

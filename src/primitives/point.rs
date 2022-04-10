@@ -1,4 +1,4 @@
-use std::ops::{Add, Neg, Sub};
+use std::ops::{Add, Div, Mul, Neg, Sub};
 
 use super::Vector;
 
@@ -64,6 +64,30 @@ impl Neg for &Point {
 
     fn neg(self) -> Self::Output {
         Point::new(-self.x, -self.y, -self.z)
+    }
+}
+
+impl Mul<f64> for &Point {
+    type Output = Point;
+
+    fn mul(self, rhs: f64) -> Self::Output {
+        Point {
+            x: self.x * rhs,
+            y: self.y * rhs,
+            z: self.z * rhs,
+        }
+    }
+}
+
+impl Div<f64> for &Point {
+    type Output = Point;
+
+    fn div(self, rhs: f64) -> Self::Output {
+        Point {
+            x: self.x / rhs,
+            y: self.y / rhs,
+            z: self.z / rhs,
+        }
     }
 }
 

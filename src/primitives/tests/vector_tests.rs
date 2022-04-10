@@ -117,3 +117,33 @@ fn negating_vector_yields_negative_vector() {
     assert_eq!(-y, vector.y);
     assert_eq!(-z, vector.z);
 }
+
+#[test]
+fn multiplying_vector_by_scalar_yields_scaled_vector() {
+    let x = 1.;
+    let y = -2.;
+    let z = 20.;
+
+    let scalar = 5.;
+
+    let vector = &Vector::new(x, y, z) * scalar;
+
+    assert_eq!(x * scalar, vector.x);
+    assert_eq!(y * scalar, vector.y);
+    assert_eq!(z * scalar, vector.z)
+}
+
+#[test]
+fn dividing_vector_by_scalar_yields_scaled_vector() {
+    let x = 1.;
+    let y = -2.;
+    let z = 20.;
+
+    let scalar = 2.;
+
+    let vector = &Vector::new(x, y, z) / scalar;
+
+    assert_eq!(x / scalar, vector.x);
+    assert_eq!(y / scalar, vector.y);
+    assert_eq!(z / scalar, vector.z)
+}
