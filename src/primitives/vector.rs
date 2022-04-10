@@ -1,4 +1,4 @@
-use std::ops::{Add, Neg, Sub, Mul, Div};
+use std::ops::{Add, BitXor, Div, Mul, Neg, Sub};
 
 use super::Point;
 
@@ -27,7 +27,7 @@ impl Vector {
     }
 
     pub fn len(&self) -> f64 {
-        (self.x * self.x + self.y * self.y + self.z * self.z).sqrt() 
+        (self.x * self.x + self.y * self.y + self.z * self.z).sqrt()
     }
 
     pub fn get_normal(&self) -> Self {
@@ -106,6 +106,26 @@ impl Div<f64> for &Vector {
             x: self.x / rhs,
             y: self.y / rhs,
             z: self.z / rhs,
+        }
+    }
+}
+
+impl Mul for &Vector {
+    type Output = f64;
+
+    fn mul(self, rhs: Self) -> Self::Output {
+        self.x * rhs.x + self.y * rhs.y + self.z * rhs.z
+    }
+}
+
+impl BitXor for &Vector {
+    type Output = Vector;
+
+    fn bitxor(self, rhs: Self) -> Self::Output {
+        Vector {
+            x: self.y * rhs.z - self.z * rhs.y,
+            y: self.z * rhs.x - self.x * rhs.z,
+            z: self.x * rhs.y - self.y * rhs.x,
         }
     }
 }

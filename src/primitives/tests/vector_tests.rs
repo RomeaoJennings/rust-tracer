@@ -188,3 +188,21 @@ fn normalize_creates_normalized_vector() {
     assert_eq!(y / len, vector.y);
     assert_eq!(z / len, vector.z);
 }
+
+#[test]
+fn dot_product_computes_correctly() {
+    let v1 = &Vector::new(1., 2., 3.);
+    let v2 = &Vector::new(2., 3., 4.);
+
+    assert_eq!(20., v1 * v2);
+}
+
+#[test]
+fn cross_product_computes_correctly() {
+    let v1 = &Vector::new(1., 2., 3.);
+    let v2 = &Vector::new(2., 3., 4.);
+
+    let actual = Vector::new(-1., 2., -1.);
+
+    assert_eq!(actual, v1 ^ v2);
+}
