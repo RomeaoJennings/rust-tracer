@@ -105,3 +105,16 @@ fn subtracting_vector_from_point_yields_difference_point() {
     assert_eq!(y1 - y2, result.get_y());
     assert_eq!(z1 - z2, result.get_z());
 }
+
+#[test]
+fn negating_point_yields_negative_point() {
+    let x = 1.;
+    let y = -2.;
+    let z = -200.;
+
+    let point = -&Point::new(x, y, z);
+
+    assert_eq!(-x, point.x);
+    assert_eq!(-y, point.y);
+    assert_eq!(-z, point.z);
+}

@@ -1,4 +1,4 @@
-use std::ops::{Add, Sub};
+use std::ops::{Add, Neg, Sub};
 
 use super::Vector;
 
@@ -56,6 +56,14 @@ impl Sub<&Vector> for &Point {
             y: self.y - rhs.get_y(),
             z: self.z - rhs.get_z(),
         }
+    }
+}
+
+impl Neg for &Point {
+    type Output = Point;
+
+    fn neg(self) -> Self::Output {
+        Point::new(-self.x, -self.y, -self.z)
     }
 }
 

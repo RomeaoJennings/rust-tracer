@@ -104,3 +104,16 @@ fn subtracting_two_vectors_yields_difference_vector() {
     assert_eq!(y1 - y2, result.get_y());
     assert_eq!(z1 - z2, result.get_z());
 }
+
+#[test]
+fn negating_vector_yields_negative_vector() {
+    let x = 1.;
+    let y = -2.;
+    let z = -200.;
+
+    let vector = -&Vector::new(x, y, z);
+
+    assert_eq!(-x, vector.x);
+    assert_eq!(-y, vector.y);
+    assert_eq!(-z, vector.z);
+}
