@@ -1,3 +1,8 @@
+use std::ops::Add;
+
+use super::Point;
+
+#[derive(Debug, Clone, PartialEq)]
 pub struct Vector {
     x: f64,
     y: f64,
@@ -19,6 +24,30 @@ impl Vector {
 
     pub fn get_z(&self) -> f64 {
         self.z
+    }
+}
+
+impl Add for &Vector {
+    type Output = Vector;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Vector {
+            x: self.x + rhs.x,
+            y: self.y + rhs.y,
+            z: self.z + rhs.z,
+        }
+    }
+}
+
+impl Add<&Point> for &Vector {
+    type Output = Vector;
+
+    fn add(self, rhs: &Point) -> Self::Output {
+        Vector {
+            x: self.x + rhs.get_x(),
+            y: self.y + rhs.get_y(),
+            z: self.z + rhs.get_z(),
+        }
     }
 }
 
