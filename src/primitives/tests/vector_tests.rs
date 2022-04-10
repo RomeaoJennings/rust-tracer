@@ -85,3 +85,22 @@ fn adding_vector_and_point_returns_summed_vector() {
     assert_eq!(y1 + y2, result.y);
     assert_eq!(z1 + z2, result.z);
 }
+
+#[test]
+fn subtracting_two_vectors_yields_difference_vector() {
+    let x1 = 1.;
+    let x2 = -2.;
+    let y1 = 5.;
+    let y2 = 16.;
+    let z1 = -100.;
+    let z2 = 54.;
+
+    let vector1 = &Vector::new(x1, y1, z1);
+    let vector2 = &Vector::new(x2,y2,z2);
+
+    let result = vector1 - vector2;
+
+    assert_eq!(x1 - x2, result.get_x());
+    assert_eq!(y1 - y2, result.get_y());
+    assert_eq!(z1 - z2, result.get_z());
+}
