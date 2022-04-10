@@ -1,4 +1,4 @@
-use std::ops::Add;
+use std::ops::{Add, Sub};
 
 use super::Vector;
 
@@ -36,6 +36,26 @@ impl Add<&Vector> for &Point {
             self.y + rhs.get_y(),
             self.z + rhs.get_z(),
         )
+    }
+}
+
+impl Sub for &Point {
+    type Output = Vector;
+
+    fn sub(self, rhs: Self) -> Self::Output {
+        Vector::new(self.x - rhs.x, self.y - rhs.y, self.z - rhs.z)
+    }
+}
+
+impl Sub<&Vector> for &Point {
+    type Output = Point;
+
+    fn sub(self, rhs: &Vector) -> Self::Output {
+        Point {
+            x: self.x - rhs.get_x(),
+            y: self.y - rhs.get_y(),
+            z: self.z - rhs.get_z(),
+        }
     }
 }
 
