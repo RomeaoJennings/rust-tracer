@@ -58,7 +58,7 @@ fn adding_vectors_returns_summed_vector() {
     let z2 = 54.;
 
     let v1 = &Vector::new(x1, y1, z1);
-    let v2 = &Vector::new(x2,y2,z2);
+    let v2 = &Vector::new(x2, y2, z2);
 
     let result = v1 + v2;
 
@@ -77,7 +77,7 @@ fn adding_vector_and_point_returns_summed_vector() {
     let z2 = 54.;
 
     let vector = &Vector::new(x1, y1, z1);
-    let point = &Point::new(x2,y2,z2);
+    let point = &Point::new(x2, y2, z2);
 
     let result = vector + point;
 
@@ -96,7 +96,7 @@ fn subtracting_two_vectors_yields_difference_vector() {
     let z2 = 54.;
 
     let vector1 = &Vector::new(x1, y1, z1);
-    let vector2 = &Vector::new(x2,y2,z2);
+    let vector2 = &Vector::new(x2, y2, z2);
 
     let result = vector1 - vector2;
 
@@ -146,4 +146,45 @@ fn dividing_vector_by_scalar_yields_scaled_vector() {
     assert_eq!(x / scalar, vector.x);
     assert_eq!(y / scalar, vector.y);
     assert_eq!(z / scalar, vector.z)
+}
+
+#[test]
+fn vector_magnitude_computes_correctly() {
+    assert_eq!(1., Vector::new(1., 0., 0.).len());
+    assert_eq!(1., Vector::new(0., 1., 0.).len());
+    assert_eq!(1., Vector::new(0., 0., 1.).len());
+
+    let actual = (5 * 5 + 3 * 3 + -2 * -2) as f64;
+    assert_eq!(actual.sqrt(), Vector::new(5., 3., -2.).len())
+}
+
+#[test]
+fn get_normal_returns_normalized_vector() {
+    let x = 3.;
+    let y = 4.;
+    let z = 10.;
+
+    let mut len: f64 = x * x + y * y + z * z;
+    len = len.sqrt();
+
+    let vector = Vector::new(x, y, z).get_normal();
+    assert_eq!(x / len, vector.x);
+    assert_eq!(y / len, vector.y);
+    assert_eq!(z / len, vector.z);
+}
+
+#[test]
+fn normalize_creates_normalized_vector() {
+    let x = 3.;
+    let y = 4.;
+    let z = 10.;
+
+    let mut len: f64 = x * x + y * y + z * z;
+    len = len.sqrt();
+
+    let mut vector = Vector::new(x, y, z);
+    vector.normalize();
+    assert_eq!(x / len, vector.x);
+    assert_eq!(y / len, vector.y);
+    assert_eq!(z / len, vector.z);
 }

@@ -25,6 +25,21 @@ impl Vector {
     pub fn get_z(&self) -> f64 {
         self.z
     }
+
+    pub fn len(&self) -> f64 {
+        (self.x * self.x + self.y * self.y + self.z * self.z).sqrt() 
+    }
+
+    pub fn get_normal(&self) -> Self {
+        self / self.len()
+    }
+
+    pub fn normalize(&mut self) {
+        let len = self.len();
+        self.x /= len;
+        self.y /= len;
+        self.z /= len;
+    }
 }
 
 impl Add for &Vector {
