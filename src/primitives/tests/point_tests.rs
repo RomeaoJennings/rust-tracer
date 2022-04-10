@@ -1,3 +1,5 @@
+use crate::primitives::Vector;
+
 use super::Point;
 
 
@@ -45,4 +47,23 @@ fn get_z_returns_correct_value() {
     let point = Point::new(expected_x, expected_y, expected_z);
 
     assert_eq!(expected_z, point.get_z());
+}
+
+#[test]
+fn adding_point_and_vector_returns_summed_vector() {
+    let x1 = 1.;
+    let x2 = -2.;
+    let y1 = 5.;
+    let y2 = 16.;
+    let z1 = -100.;
+    let z2 = 54.;
+
+    let point = &Point::new(x2,y2,z2);
+    let vector = &Vector::new(x1, y1, z1);
+
+    let result = vector + point;
+
+    assert_eq!(x1 + x2, result.get_x());
+    assert_eq!(y1 + y2, result.get_y());
+    assert_eq!(z1 + z2, result.get_z());
 }
