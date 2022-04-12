@@ -54,10 +54,10 @@ impl Point {
 }
 
 impl Add<&Vector> for &Point {
-    type Output = Vector;
+    type Output = Point;
 
     fn add(self, rhs: &Vector) -> Self::Output {
-        Vector::new(
+        Point::new(
             self.x + rhs.get_x(),
             self.y + rhs.get_y(),
             self.z + rhs.get_z(),
