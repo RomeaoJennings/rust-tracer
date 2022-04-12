@@ -1,6 +1,8 @@
-use std::ops::{Add, Div, Mul, Neg, Sub};
+use std::ops::{Add, Div, Mul, Neg, Sub, Index};
 
 use super::Vector;
+
+const W:f64 = 1.0;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Point {
@@ -87,6 +89,19 @@ impl Div<f64> for &Point {
             x: self.x / rhs,
             y: self.y / rhs,
             z: self.z / rhs,
+        }
+    }
+}
+
+impl Index<usize> for Point{
+    type Output = f64;
+
+    fn index(&self, index: usize) -> &Self::Output {
+        match index {
+            0 => &self.x,
+            1 => &self.y,
+            2 => &self.z,
+            _ => &W
         }
     }
 }

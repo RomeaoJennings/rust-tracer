@@ -1,6 +1,8 @@
-use std::ops::{Add, BitXor, Div, Mul, Neg, Sub};
+use std::ops::{Add, BitXor, Div, Mul, Neg, Sub, Index};
 
 use super::Point;
+
+const W: f64 = 0.0;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Vector {
@@ -126,6 +128,19 @@ impl BitXor for &Vector {
             x: self.y * rhs.z - self.z * rhs.y,
             y: self.z * rhs.x - self.x * rhs.z,
             z: self.x * rhs.y - self.y * rhs.x,
+        }
+    }
+}
+
+impl Index<usize> for Vector {
+    type Output = f64;
+
+    fn index(&self, index: usize) -> &Self::Output {
+        match index {
+            0 => &self.x,
+            1 => &self.y,
+            2 => &self.z,
+            _ => &W,
         }
     }
 }
