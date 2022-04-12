@@ -31,6 +31,26 @@ impl Point {
     pub fn translate(&self, x: f64, y: f64, z: f64) -> Self {
         &SquareMatrix::translation(x, y, z) * self
     }
+
+    pub fn rotate_x(&self, radians: f64) -> Self {
+        &SquareMatrix::rotation_x(radians) * self
+    }
+
+    pub fn rotate_y(&self, radians: f64) -> Self {
+        &SquareMatrix::rotation_y(radians) * self
+    }
+
+    pub fn rotate_z(&self, radians: f64) -> Self {
+        &SquareMatrix::rotation_z(radians) * self
+    }
+
+    pub fn scale(&self, x: f64, y: f64, z: f64) -> Self {
+        &SquareMatrix::scaling(x, y, z) * self
+    }
+
+    pub fn shear(&self, xy: f64, xz: f64, yx: f64, yz: f64, zx: f64, zy: f64) -> Self {
+        &SquareMatrix::shearing(xy, xz, yx, yz, zx, zy) * self
+    }
 }
 
 impl Add<&Vector> for &Point {

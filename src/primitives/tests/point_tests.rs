@@ -1,3 +1,5 @@
+use std::f64::consts::PI;
+
 use crate::primitives::Vector;
 
 use super::Point;
@@ -150,7 +152,7 @@ fn dividing_point_by_scalar_yields_scaled_point() {
 
 #[test]
 fn translate_creates_correct_point() {
-    let point = Point::new(0.,0.,0.);
+    let point = Point::new(0., 0., 0.);
 
     let x = 1.5;
     let y = -2.;
@@ -159,4 +161,14 @@ fn translate_creates_correct_point() {
     let translated_point = point.translate(x, y, z);
     let expected = Point::new(x, y, z);
     assert_eq!(expected, translated_point)
+}
+
+#[test]
+fn chained_transformations_compute_correctly() {
+    let point = Point::new(1., 0., 1.);
+    let result = point
+        .rotate_x(PI / 2.)
+        .scale(5., 5., 5.)
+        .translate(10., 5., 7.);
+    assert_eq!(Point::new(15., 0., 7.), result);
 }

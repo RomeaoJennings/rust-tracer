@@ -1,10 +1,10 @@
 use std::ops::{Add, BitXor, Div, Mul, Neg, Sub, Index};
 
-use super::Point;
+use super::{Point, SquareMatrix};
 
 const W: f64 = 0.0;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone)]
 pub struct Vector {
     x: f64,
     y: f64,
@@ -41,6 +41,30 @@ impl Vector {
         self.x /= len;
         self.y /= len;
         self.z /= len;
+    }
+
+    pub fn translate(&self, x: f64, y: f64, z: f64) -> Self {
+        &SquareMatrix::translation(x, y, z) * self
+    }
+
+    pub fn rotate_x(&self, radians: f64) -> Self {
+        &SquareMatrix::rotation_x(radians) * self
+    }
+
+    pub fn rotate_y(&self, radians: f64) -> Self {
+        &SquareMatrix::rotation_y(radians) * self
+    }
+
+    pub fn rotate_z(&self, radians: f64) -> Self {
+        &SquareMatrix::rotation_z(radians) * self
+    }
+
+    pub fn scale(&self, x: f64, y: f64, z: f64) -> Self {
+        &SquareMatrix::scaling(x, y, z) * self
+    }
+
+    pub fn shear(&self, xy: f64, xz: f64, yx: f64, yz: f64, zx: f64, zy: f64) -> Self {
+        &SquareMatrix::shearing(xy, xz, yx, yz, zx, zy) * self
     }
 }
 
@@ -143,6 +167,17 @@ impl Index<usize> for Vector {
             _ => &W,
         }
     }
+}
+
+impl PartialEq for Vector {
+    fn eq(&self, other: &Self) -> bool {
+        approx_eq(self.x, other.x) && approx_eq(self.y, other.y) && approx_eq(self.z, other.z)
+    }
+}
+
+fn approx_eq(one: f64, two: f64) -> bool {
+    const EPSILON: f64 = 1e-6;
+    (one - two).abs() < EPSILON
 }
 
 #[cfg(test)]

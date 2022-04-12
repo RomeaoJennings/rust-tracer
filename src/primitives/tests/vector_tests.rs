@@ -1,3 +1,5 @@
+use std::f64::consts::PI;
+
 use crate::primitives::Point;
 
 use super::Vector;
@@ -205,4 +207,14 @@ fn cross_product_computes_correctly() {
     let actual = Vector::new(-1., 2., -1.);
 
     assert_eq!(actual, v1 ^ v2);
+}
+
+#[test]
+fn chained_transformations_compute_correctly() {
+    let vector = Vector::new(1., 0., 1.);
+    let result = vector
+        .rotate_x(PI / 2.)
+        .scale(5., 5., 5.)
+        .translate(10., 5., 7.);
+    assert_eq!(Vector::new(5., -5., 0.), result);
 }
