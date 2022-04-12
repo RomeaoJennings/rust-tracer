@@ -147,3 +147,16 @@ fn dividing_point_by_scalar_yields_scaled_point() {
     assert_eq!(y / scalar, point.y);
     assert_eq!(z / scalar, point.z)
 }
+
+#[test]
+fn translate_creates_correct_point() {
+    let point = Point::new(0.,0.,0.);
+
+    let x = 1.5;
+    let y = -2.;
+    let z = 5.;
+
+    let translated_point = point.translate(x, y, z);
+    let expected = Point::new(x, y, z);
+    assert_eq!(expected, translated_point)
+}

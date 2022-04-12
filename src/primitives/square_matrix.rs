@@ -24,6 +24,62 @@ impl SquareMatrix {
         result
     }
 
+    pub fn translation(x: f64, y: f64, z: f64) -> Self {
+        let mut result = SquareMatrix::identity(4);
+        let elements = [(0, 3, x), (1, 3, y), (2, 3, z)];
+        result.set_all(&elements);
+        result
+    }
+
+    pub fn rotation_x(radians: f64) -> Self {
+        let mut matrix = SquareMatrix::identity(4);
+        let cos = radians.cos();
+        let sin = radians.sin();
+
+        let elements = [(1, 1, cos), (2, 2, cos), (1, 2, -sin), (2, 1, sin)];
+        matrix.set_all(&elements);
+        matrix
+    }
+
+    pub fn rotation_y(radians: f64) -> Self {
+        let mut matrix = SquareMatrix::identity(4);
+        let cos = radians.cos();
+        let sin = radians.sin();
+        let elements = [(0, 0, cos), (2, 2, cos), (2, 0, -sin), (0, 2, sin)];
+        matrix.set_all(&elements);
+        matrix
+    }
+
+    pub fn rotation_z(radians: f64) -> Self {
+        let mut matrix = SquareMatrix::identity(4);
+        let cos = radians.cos();
+        let sin = radians.sin();
+        let elements = [(0, 0, cos), (1, 1, cos), (0, 1, -sin), (1, 0, sin)];
+        matrix.set_all(&elements);
+        matrix
+    }
+
+    pub fn scaling(x: f64, y: f64, z: f64) -> Self {
+        let elements = [(0, 0, x), (1, 1, y), (2, 2, z)];
+        let mut matrix = SquareMatrix::zeroes(4);
+        matrix.set_all(&elements);
+        matrix
+    }
+
+    pub fn shearing(xy: f64, xz: f64, yx: f64, yz: f64, zx: f64, zy: f64) -> Self {
+        let elements = [
+            (0, 1, xy),
+            (0, 2, xz),
+            (1, 0, yx),
+            (1, 2, yz),
+            (2, 0, zx),
+            (2, 1, zy),
+        ];
+        let mut matrix = SquareMatrix::identity(4);
+        matrix.set_all(&elements);
+        matrix
+    }
+
     pub fn transpose(&self) -> Self {
         let len = self.elements.len();
         let mut result = SquareMatrix::zeroes(len);
@@ -43,10 +99,17 @@ impl SquareMatrix {
         self.elements[row][col] = value;
     }
 
+    pub fn set_all(&mut self, elements: &[(usize, usize, f64)]) {
+        for (row, col, value) in elements {
+            self.set(*row, *col, *value);
+        }
+    }
+
     pub fn determinant(&self) -> f64 {
         if self.elements.len() == 2 {
-            return self.elements[0][0] * self.elements[1][1] - self.elements[1][0] * self.elements[0][1]
-        } 
+            return self.elements[0][0] * self.elements[1][1]
+                - self.elements[1][0] * self.elements[0][1];
+        }
         let mut result = 0.0;
         for i in 0..self.elements.len() {
             result += self.elements[0][i] * self.cofactor(0, i);
@@ -77,7 +140,9 @@ impl SquareMatrix {
             }
             let mut row_vec = Vec::with_capacity(self.elements.len() - 1);
             for curr_col in 0..self.elements.len() {
-                if col == curr_col { continue;}
+                if col == curr_col {
+                    continue;
+                }
                 row_vec.push(self.elements[curr_row][curr_col]);
             }
             rows.push(row_vec)
@@ -91,7 +156,7 @@ impl SquareMatrix {
 
     fn cofactor(&self, row: usize, col: usize) -> f64 {
         let mut minor = self.minor(row, col);
-        if (row + col) % 2  == 1 {
+        if (row + col) % 2 == 1 {
             minor *= -1.;
         }
         minor

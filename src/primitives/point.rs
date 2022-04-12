@@ -1,10 +1,10 @@
-use std::ops::{Add, Div, Mul, Neg, Sub, Index};
+use std::ops::{Add, Div, Index, Mul, Neg, Sub};
 
-use super::Vector;
+use super::{SquareMatrix, Vector};
 
-const W:f64 = 1.0;
+const W: f64 = 1.0;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone)]
 pub struct Point {
     x: f64,
     y: f64,
@@ -26,6 +26,10 @@ impl Point {
 
     pub fn get_z(&self) -> f64 {
         self.z
+    }
+
+    pub fn translate(&self, x: f64, y: f64, z: f64) -> Self {
+        &SquareMatrix::translation(x, y, z) * self
     }
 }
 
@@ -93,7 +97,7 @@ impl Div<f64> for &Point {
     }
 }
 
-impl Index<usize> for Point{
+impl Index<usize> for Point {
     type Output = f64;
 
     fn index(&self, index: usize) -> &Self::Output {
@@ -101,9 +105,20 @@ impl Index<usize> for Point{
             0 => &self.x,
             1 => &self.y,
             2 => &self.z,
-            _ => &W
+            _ => &W,
         }
     }
+}
+
+impl PartialEq for Point {
+    fn eq(&self, other: &Self) -> bool {
+        approx_eq(self.x, other.x) && approx_eq(self.y, other.y) && approx_eq(self.z, other.z)
+    }
+}
+
+fn approx_eq(one: f64, two: f64) -> bool {
+    const EPSILON: f64 = 1e-6;
+    (one - two).abs() < EPSILON
 }
 
 #[cfg(test)]
