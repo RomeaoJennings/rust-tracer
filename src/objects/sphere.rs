@@ -1,12 +1,13 @@
-use crate::primitives::{Ray, Point};
+use crate::primitives::{HitRecord, Point, Ray};
 
+#[derive(Clone, Debug, PartialEq)]
 pub struct Sphere;
 
 impl Sphere {
-    pub fn get_hits(&self, ray: &Ray) -> Vec<f64> {
+    pub fn get_hits(&self, ray: &Ray) -> Vec<HitRecord> {
         let mut result = Vec::new();
 
-        let sphere_to_ray = &(ray.get_origin() - &Point::new(0.,0.,0.));
+        let sphere_to_ray = &(ray.get_origin() - &Point::new(0., 0., 0.));
         let mut a = ray.get_direction() * ray.get_direction();
         let mut b = (ray.get_direction() * sphere_to_ray) * 2.0;
         let c = sphere_to_ray * sphere_to_ray - 1.0;
@@ -18,9 +19,9 @@ impl Sphere {
         discriminant = discriminant.sqrt();
         a *= 2.0;
         b *= -1.0;
-        result.push((b - discriminant) / a); 
+        result.push(HitRecord::new((b - discriminant) / a, self));
         if discriminant > 0.0 {
-            result.push((b + discriminant) / a);
+            result.push(HitRecord::new((b + discriminant) / a, self));
         }
         result
     }

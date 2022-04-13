@@ -23,6 +23,15 @@ impl RgbColor {
     pub fn get_blue(&self) -> f64 {
         self.blue
     }
+
+    pub fn to_u8_tuple(&self) -> (u8, u8, u8) {
+        let mult = 255.;
+        (
+            (self.red * mult) as u8,
+            (self.green * mult) as u8,
+            (self.blue * mult) as u8,
+        )
+    }
 }
 
 impl Add for &RgbColor {
