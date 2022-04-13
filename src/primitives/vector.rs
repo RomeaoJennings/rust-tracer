@@ -1,4 +1,4 @@
-use std::ops::{Add, BitXor, Div, Mul, Neg, Sub, Index};
+use std::ops::{Add, BitXor, Div, Index, Mul, Neg, Sub};
 
 use super::{Point, SquareMatrix};
 
@@ -41,6 +41,11 @@ impl Vector {
         self.x /= len;
         self.y /= len;
         self.z /= len;
+    }
+
+    pub fn reflect(&self, normal: &Vector) -> Vector {
+        let right_side = normal * (self * normal * 2.0);
+        self - &right_side
     }
 
     pub fn translate(&self, x: f64, y: f64, z: f64) -> Self {

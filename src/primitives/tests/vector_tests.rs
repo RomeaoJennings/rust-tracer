@@ -218,3 +218,19 @@ fn chained_transformations_compute_correctly() {
         .translate(10., 5., 7.);
     assert_eq!(Vector::new(5., -5., 0.), result);
 }
+
+#[test]
+fn reflect_at_45degrees_computes_correctly() {
+    let vector = Vector::new(1.0, -1.0, 0.0);
+    let normal = Vector::new(0.0, 1.0, 0.0);
+    let reflected = vector.reflect(&normal);
+    assert_eq!(reflected, Vector::new(1.0, 1.0, 0.0));
+}
+
+#[test]
+fn reflect_slanted_computes_correctly() {
+    let vector = Vector::new(0.0, -1.0, 0.0);
+    let normal = Vector::new(2f64.sqrt() / 2.0, 2f64.sqrt() / 2.0, 0.0);
+    let reflected = vector.reflect(&normal);
+    assert_eq!(reflected, Vector::new(1.0, 0.0, 0.0));
+}
