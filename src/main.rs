@@ -13,9 +13,9 @@ fn main() {
     let half = wall_size / 2.0;
 
     let mut canvas = Canvas::new(canvas_pixels, canvas_pixels, None);
-    let color = RgbColor::new(1., 0.5, 0.);
-    let mut shape = Sphere::identity();
-    let transform = SquareMatrix::shearing(-0.5, 0., 0., 0., 0., 0.);
+    let color = RgbColor::new(1., 0.5, 0.25);
+    let mut shape = Sphere::new(Point::new(0., 0.5, 0.), 0.5);
+    let transform = SquareMatrix::shearing(-0.3, 0., 0., 0.2, 0., 0.);
     shape.set_transform(transform);
     for y in 0..canvas_pixels {
         let world_y = half - pixel_size * y as f64;

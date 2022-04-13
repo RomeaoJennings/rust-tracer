@@ -37,7 +37,7 @@ fn get_hits_misses_sphere() {
 
 #[test]
 fn get_hits_computes_on_transformed_sphere() {
-    let sphere = Sphere::new(SquareMatrix::scaling(2., 2., 2.));
+    let sphere = Sphere::with_transform(SquareMatrix::scaling(2., 2., 2.));
     let ray = Ray::new(Point::new(0., 0., -5.), Vector::new(0., 0., 1.));
 
     let hits = sphere.get_hits(&ray);
