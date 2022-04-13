@@ -1,4 +1,4 @@
-use crate::primitives::{HitRecord, Point, Ray, SquareMatrix};
+use crate::primitives::{HitRecord, Point, Ray, SquareMatrix, Vector};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Sphere {
@@ -15,7 +15,8 @@ impl Sphere {
     }
 
     pub fn new(center: Point, radius: f64) -> Self {
-        let mut transform = SquareMatrix::translation(center.get_x(), center.get_y(), center.get_z());
+        let mut transform =
+            SquareMatrix::translation(center.get_x(), center.get_y(), center.get_z());
         transform = &transform * &SquareMatrix::scaling(radius, radius, radius);
         Sphere::with_transform(transform)
     }
@@ -52,6 +53,13 @@ impl Sphere {
             result.push(HitRecord::new((b + discriminant) / a, self));
         }
         result
+    }
+
+    fn get_normal(&self, point: &Point) -> Vector {
+        let object_point = &self.inverted * point;
+        let object_normal = &object_point - &Point::new(0.0, 0.0, 0.0);
+        let world_normal = &self.inverted.transpose() * &object_normal;
+        world_normal.get_normal()
     }
 }
 
