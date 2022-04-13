@@ -60,7 +60,7 @@ impl SquareMatrix {
     }
 
     pub fn scaling(x: f64, y: f64, z: f64) -> Self {
-        let elements = [(0, 0, x), (1, 1, y), (2, 2, z)];
+        let elements = [(0, 0, x), (1, 1, y), (2, 2, z), (3, 3, 1.0)];
         let mut matrix = SquareMatrix::zeroes(4);
         matrix.set_all(&elements);
         matrix

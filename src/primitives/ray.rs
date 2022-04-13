@@ -23,34 +23,32 @@ impl Ray {
         self.get_origin() + &(self.get_direction() * t)
     }
 
-    pub fn translate(&self, x: f64, y: f64, z: f64) -> Self {
-        let matrix = &SquareMatrix::translation(x, y, z);
+    pub fn transform(&self, matrix: &SquareMatrix) -> Self {
         Ray::new(matrix * self.get_origin(), matrix * self.get_direction())
+    }
+
+    pub fn translate(&self, x: f64, y: f64, z: f64) -> Self {
+        self.transform(&SquareMatrix::translation(x, y, z))
     }
 
     pub fn rotate_x(&self, radians: f64) -> Self {
-        let matrix = &SquareMatrix::rotation_x(radians);
-        Ray::new(matrix * self.get_origin(), matrix * self.get_direction())
+        self.transform(&SquareMatrix::rotation_x(radians))
     }
 
     pub fn rotate_y(&self, radians: f64) -> Self {
-        let matrix = &SquareMatrix::rotation_y(radians);
-        Ray::new(matrix * self.get_origin(), matrix * self.get_direction())
+        self.transform(&SquareMatrix::rotation_y(radians))
     }
 
     pub fn rotate_z(&self, radians: f64) -> Self {
-        let matrix = &SquareMatrix::rotation_z(radians);
-        Ray::new(matrix * self.get_origin(), matrix * self.get_direction())
+        self.transform(&SquareMatrix::rotation_z(radians))
     }
 
     pub fn scale(&self, x: f64, y: f64, z: f64) -> Self {
-        let matrix = &SquareMatrix::scaling(x, y, z);
-        Ray::new(matrix * self.get_origin(), matrix * self.get_direction())
+        self.transform(&SquareMatrix::scaling(x, y, z))
     }
 
     pub fn shear(&self, xy: f64, xz: f64, yx: f64, yz: f64, zx: f64, zy: f64) -> Self {
-        let matrix = &SquareMatrix::shearing(xy, xz, yx, yz, zx, zy);
-        Ray::new(matrix * self.get_origin(), matrix * self.get_direction())
+        self.transform(&SquareMatrix::shearing(xy, xz, yx, yz, zx, zy))
     }
 }
 
