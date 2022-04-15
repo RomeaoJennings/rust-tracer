@@ -1,9 +1,13 @@
-use crate::primitives::{HitRecord, Point, Ray, SquareMatrix, Vector};
+use crate::{
+    primitives::{HitRecord, Point, Ray, SquareMatrix, Vector},
+    shading::Material,
+};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Sphere {
     transform: SquareMatrix,
     inverted: SquareMatrix,
+    material: Material,
 }
 
 impl Sphere {
@@ -11,6 +15,7 @@ impl Sphere {
         Sphere {
             transform: SquareMatrix::identity(4),
             inverted: SquareMatrix::identity(4),
+            material: Material::default(),
         }
     }
 
@@ -25,7 +30,16 @@ impl Sphere {
         Sphere {
             inverted: transform.invert(),
             transform,
+            material: Material::default(),
         }
+    }
+
+    pub fn get_material(&self) -> &Material {
+        &self.material
+    }
+
+    pub fn set_material(&mut self, material: Material) {
+        self.material = material;
     }
 
     pub fn set_transform(&mut self, transform: SquareMatrix) {
@@ -55,7 +69,7 @@ impl Sphere {
         result
     }
 
-    fn get_normal(&self, point: &Point) -> Vector {
+    pub fn get_normal(&self, point: &Point) -> Vector {
         let object_point = &self.inverted * point;
         let object_normal = &object_point - &Point::new(0.0, 0.0, 0.0);
         let world_normal = &self.inverted.transpose() * &object_normal;

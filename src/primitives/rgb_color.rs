@@ -24,6 +24,22 @@ impl RgbColor {
         self.blue
     }
 
+    pub fn clamp(&mut self) {
+        let max = self.red.max(self.green.max(self.blue));
+        if max > 1.0 {
+            self.red /= max;
+            self.green /= max;
+            self.blue /= max;
+        }
+    }
+
+    pub fn gamma_correct(&mut self) {
+        let inv_gamma = 1.0 / 1.3;
+        self.red = self.red.powf(inv_gamma);
+        self.green = self.green.powf(inv_gamma);
+        self.blue = self.blue.powf(inv_gamma);
+    }
+
     pub fn to_u8_tuple(&self) -> (u8, u8, u8) {
         let mult = 255.;
         (
