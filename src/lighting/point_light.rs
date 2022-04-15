@@ -27,14 +27,14 @@ impl PointLight {
     pub fn shade(
         &self,
         material: &Material,
-        point: Point,
-        eyev: Vector,
-        normalv: Vector,
+        point: &Point,
+        eyev: &Vector,
+        normalv: &Vector,
     ) -> RgbColor {
         let effective_color = material.get_color() * &self.intensity;
-        let lightv = (&self.location - &point).get_normal();
+        let lightv = (&self.location - point).get_normal();
         let ambient = &effective_color * material.get_ambient();
-        let light_dot_normal = &lightv * &normalv;
+        let light_dot_normal = &lightv * normalv;
         let diffuse: RgbColor;
         let specular: RgbColor;
         if light_dot_normal < 0. {
@@ -43,7 +43,7 @@ impl PointLight {
         } else {
             diffuse = &effective_color * (material.get_diffuse() * light_dot_normal);
             let reflectv = (-&lightv).reflect(&normalv);
-            let reflect_dot_eye = &reflectv * &eyev;
+            let reflect_dot_eye = &reflectv * eyev;
             if reflect_dot_eye <= 0. {
                 specular = RgbColor::new(0., 0., 0.);
             } else {

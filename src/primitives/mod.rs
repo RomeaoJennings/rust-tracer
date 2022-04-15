@@ -5,6 +5,7 @@ mod canvas;
 mod square_matrix;
 mod ray;
 mod hit_record;
+mod world;
 
 pub use point::Point;
 pub use vector::Vector;
@@ -13,3 +14,4 @@ pub use canvas::Canvas;
 pub use square_matrix::SquareMatrix;
 pub use ray::Ray;
 pub use hit_record::HitRecord;
+pub use world::World;

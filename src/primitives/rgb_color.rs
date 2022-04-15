@@ -1,4 +1,4 @@
-use std::ops::{Add, Mul, Sub};
+use std::ops::{Add, Mul, Sub, Div};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct RgbColor {
@@ -38,6 +38,14 @@ impl RgbColor {
         self.red = self.red.powf(inv_gamma);
         self.green = self.green.powf(inv_gamma);
         self.blue = self.blue.powf(inv_gamma);
+    }
+
+    pub fn correct_with(&mut self, max: f64) {
+        if max > 1.0 {
+            self.red /= max;
+            self.green /= max;
+            self.blue /= max;
+        }
     }
 
     pub fn to_u8_tuple(&self) -> (u8, u8, u8) {
@@ -89,6 +97,13 @@ impl Mul for &RgbColor {
             self.green * rhs.green,
             self.blue * rhs.blue,
         )
+    }
+}
+
+impl Div<f64> for &mut RgbColor {
+    type Output = RgbColor;
+    fn div(self, rhs: f64) -> Self::Output {
+        RgbColor::new(self.red / rhs, self.green / rhs, self.blue / rhs)
     }
 }
 

@@ -32,6 +32,21 @@ impl Canvas {
         self.pixels.len()
     }
 
+    pub fn correct_colors(&mut self) {
+        let mut max:f64 = 0.0;
+        for row in self.pixels.iter() {
+            for pixel in row.iter() {
+                max = max.max(pixel.get_red().max(pixel.get_blue().max(pixel.get_green())));
+            }
+        }
+        for row in self.pixels.iter_mut() {
+            for pixel in row.iter_mut() {
+                pixel.correct_with(max);
+                pixel.gamma_correct();
+            }
+        }
+    }
+
     pub fn to_ppm(&self, filename: &str) -> Result<()> {
         let contents = self.build_contents();
         let mut file = OpenOptions::new()
