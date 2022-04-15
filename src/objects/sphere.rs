@@ -3,6 +3,8 @@ use crate::{
     shading::Material,
 };
 
+use super::Hittable;
+
 #[derive(Clone, Debug, PartialEq)]
 pub struct Sphere {
     transform: SquareMatrix,
@@ -33,21 +35,10 @@ impl Sphere {
             material: Material::default(),
         }
     }
+}
 
-    pub fn get_material(&self) -> &Material {
-        &self.material
-    }
-
-    pub fn set_material(&mut self, material: Material) {
-        self.material = material;
-    }
-
-    pub fn set_transform(&mut self, transform: SquareMatrix) {
-        self.inverted = transform.invert();
-        self.transform = transform;
-    }
-
-    pub fn get_hits(&self, ray: &Ray) -> Vec<HitRecord> {
+impl Hittable for Sphere {
+    fn get_hits(&self, ray: &Ray) -> Vec<HitRecord> {
         let mut result = Vec::new();
         let ray = ray.transform(&self.inverted);
         let sphere_to_ray = &(ray.get_origin() - &Point::new(0., 0., 0.));
@@ -69,11 +60,33 @@ impl Sphere {
         result
     }
 
-    pub fn get_normal(&self, point: &Point) -> Vector {
-        let object_point = &self.inverted * point;
+    fn get_normal(&self, hit_point: &Point) -> Vector {
+        let object_point = &self.inverted * hit_point;
         let object_normal = &object_point - &Point::new(0.0, 0.0, 0.0);
         let world_normal = &self.inverted.transpose() * &object_normal;
         world_normal.get_normal()
+    }
+
+    
+    fn get_material(&self) -> &Material {
+        &self.material
+    }
+
+    fn set_material(&mut self, material: Material) {
+        self.material = material;
+    }
+
+    fn get_transform(&self) -> &SquareMatrix {
+        &self.transform
+    }
+
+    fn get_transform_inverted(&self) -> &SquareMatrix {
+        &self.inverted
+    }
+
+    fn set_transform(&mut self, transform: SquareMatrix) {
+        self.inverted = transform.invert();
+        self.transform = transform;
     }
 }
 

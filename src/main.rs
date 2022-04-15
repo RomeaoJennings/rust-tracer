@@ -1,6 +1,6 @@
 use rust_tracer::{
     lighting::PointLight,
-    objects::Sphere,
+    objects::{Sphere, Hittable},
     primitives::{Canvas, Point, Ray, RgbColor},
     shading::Material,
 };

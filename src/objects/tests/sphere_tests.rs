@@ -1,6 +1,9 @@
 use std::f64::consts::PI;
 
-use crate::primitives::{HitRecord, Point, Ray, SquareMatrix, Vector};
+use crate::{
+    objects::Hittable,
+    primitives::{HitRecord, Point, Ray, SquareMatrix, Vector},
+};
 
 use super::Sphere;
 
