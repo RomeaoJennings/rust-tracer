@@ -3,14 +3,14 @@ use std::cmp::Ordering;
 use crate::objects::Sphere;
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct HitIntersection<'a> {
+pub struct Hit<'a> {
     t: f64,
     object: &'a Sphere,
 }
 
-impl<'a> HitIntersection<'a> {
+impl<'a> Hit<'a> {
     pub fn new(t: f64, object: &'a Sphere) -> Self {
-        HitIntersection { t, object }
+        Hit { t, object }
     }
 
     pub fn get_t(&self) -> f64 {
@@ -28,13 +28,13 @@ impl<'a> HitIntersection<'a> {
             Ordering::Greater
         } else if other.t == f64::NAN {
             Ordering::Less
-        }else {
+        } else {
             self.partial_cmp(&other).unwrap()
         }
     }
 }
 
-impl<'a> PartialOrd for HitIntersection<'a> {
+impl<'a> PartialOrd for Hit<'a> {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         self.t.partial_cmp(&other.t)
     }

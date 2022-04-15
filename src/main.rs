@@ -1,7 +1,7 @@
 use rust_tracer::{
     lighting::PointLight,
     objects::{Hittable, Sphere},
-    primitives::{Canvas, Point, Ray, RgbColor, SquareMatrix, World},
+    primitives::{Canvas, Point, Ray, RgbColor, World},
     shading::Material,
 };
 

@@ -2,7 +2,7 @@ use std::f64::consts::PI;
 
 use crate::{
     objects::Hittable,
-    primitives::{HitIntersection, Point, Ray, SquareMatrix, Vector},
+    primitives::{Hit, Point, Ray, SquareMatrix, Vector},
 };
 
 use super::Sphere;
@@ -15,8 +15,8 @@ fn get_hits_returns_two_hit_points() {
     let hits = sphere.get_hits(&ray);
 
     assert_eq!(2, hits.len());
-    assert_eq!(hits[0], HitIntersection::new(4.0, &sphere));
-    assert_eq!(hits[1], HitIntersection::new(6.0, &sphere));
+    assert_eq!(hits[0], Hit::new(4.0, &sphere));
+    assert_eq!(hits[1], Hit::new(6.0, &sphere));
 }
 
 #[test]
@@ -27,7 +27,7 @@ fn get_hits_at_tanget_returns_one_point() {
     let hits = sphere.get_hits(&ray);
 
     assert_eq!(1, hits.len());
-    assert_eq!(hits[0], HitIntersection::new(5.0, &sphere));
+    assert_eq!(hits[0], Hit::new(5.0, &sphere));
 }
 
 #[test]
@@ -48,8 +48,8 @@ fn get_hits_computes_on_transformed_sphere() {
     let hits = sphere.get_hits(&ray);
 
     assert_eq!(2, hits.len());
-    assert_eq!(hits[0], HitIntersection::new(3.0, &sphere));
-    assert_eq!(hits[1], HitIntersection::new(7.0, &sphere));
+    assert_eq!(hits[0], Hit::new(3.0, &sphere));
+    assert_eq!(hits[1], Hit::new(7.0, &sphere));
 }
 
 #[test]

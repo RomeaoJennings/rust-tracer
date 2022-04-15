@@ -1,10 +1,10 @@
 use crate::{
-    primitives::{HitIntersection, Point, Ray, Vector, SquareMatrix},
+    primitives::{Hit, Point, Ray, Vector, SquareMatrix},
     shading::Material,
 };
 
 pub trait Hittable {
-    fn get_hits(&self, ray: &Ray) -> Vec<HitIntersection>;
+    fn get_hits(&self, ray: &Ray) -> Vec<Hit>;
     fn get_normal(&self, hit_point: &Point) -> Vector;
     fn get_material(&self) -> &Material;
     fn set_material(&mut self, material: Material);

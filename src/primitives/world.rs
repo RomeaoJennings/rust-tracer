@@ -1,6 +1,6 @@
 use crate::{lighting::PointLight, objects::Hittable};
 
-use super::{Ray, HitIntersection};
+use super::{Ray, Hit};
 
 pub struct World {
     lights: Vec<PointLight>,
@@ -31,7 +31,7 @@ impl World {
         &self.objects
     }
 
-    pub fn get_hits(&self, ray: &Ray) -> Vec<HitIntersection> {
+    pub fn get_hits(&self, ray: &Ray) -> Vec<Hit> {
         let mut result = Vec::new();
         for object in self.objects.iter() {
             result.append(&mut object.get_hits(&ray));
@@ -40,7 +40,7 @@ impl World {
         result
     }
 
-    pub fn get_first_visible_hit<'a>(hits: &'a Vec<HitIntersection>) -> Option<&'a HitIntersection<'a>> {
+    pub fn get_first_visible_hit<'a>(hits: &'a Vec<Hit>) -> Option<&'a Hit<'a>> {
         for hit in hits.iter() {
             if hit.get_t() > 0.0 {
                 return Some(hit);
