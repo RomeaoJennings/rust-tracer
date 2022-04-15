@@ -33,16 +33,16 @@ impl Canvas {
     }
 
     pub fn correct_colors(&mut self) {
-        let mut max:f64 = 0.0;
-        for row in self.pixels.iter() {
-            for pixel in row.iter() {
+        let mut max: f64 = 0.0;
+        for row in self.pixels.iter_mut() {
+            for pixel in row.iter_mut() {
+                pixel.gamma_correct();
                 max = max.max(pixel.get_red().max(pixel.get_blue().max(pixel.get_green())));
             }
         }
         for row in self.pixels.iter_mut() {
             for pixel in row.iter_mut() {
                 pixel.correct_with(max);
-                pixel.gamma_correct();
             }
         }
     }

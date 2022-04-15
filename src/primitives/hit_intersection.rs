@@ -3,14 +3,14 @@ use std::cmp::Ordering;
 use crate::objects::Sphere;
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct HitRecord<'a> {
+pub struct HitIntersection<'a> {
     t: f64,
     object: &'a Sphere,
 }
 
-impl<'a> HitRecord<'a> {
+impl<'a> HitIntersection<'a> {
     pub fn new(t: f64, object: &'a Sphere) -> Self {
-        HitRecord { t, object }
+        HitIntersection { t, object }
     }
 
     pub fn get_t(&self) -> f64 {
@@ -34,7 +34,7 @@ impl<'a> HitRecord<'a> {
     }
 }
 
-impl<'a> PartialOrd for HitRecord<'a> {
+impl<'a> PartialOrd for HitIntersection<'a> {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         self.t.partial_cmp(&other.t)
     }

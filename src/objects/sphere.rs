@@ -1,5 +1,5 @@
 use crate::{
-    primitives::{HitRecord, Point, Ray, SquareMatrix, Vector},
+    primitives::{HitIntersection, Point, Ray, SquareMatrix, Vector},
     shading::Material,
 };
 
@@ -38,7 +38,7 @@ impl Sphere {
 }
 
 impl Hittable for Sphere {
-    fn get_hits(&self, ray: &Ray) -> Vec<HitRecord> {
+    fn get_hits(&self, ray: &Ray) -> Vec<HitIntersection> {
         let mut result = Vec::new();
         let ray = ray.transform(&self.inverted);
         let sphere_to_ray = &(ray.get_origin() - &Point::new(0., 0., 0.));
@@ -53,9 +53,9 @@ impl Hittable for Sphere {
         discriminant = discriminant.sqrt();
         a *= 2.0;
         b *= -1.0;
-        result.push(HitRecord::new((b - discriminant) / a, self));
+        result.push(HitIntersection::new((b - discriminant) / a, self));
         if discriminant > 0.0 {
-            result.push(HitRecord::new((b + discriminant) / a, self));
+            result.push(HitIntersection::new((b + discriminant) / a, self));
         }
         result
     }
