@@ -2,6 +2,8 @@ use std::cmp::Ordering;
 
 use crate::objects::Sphere;
 
+use super::{HitRecord, Ray};
+
 #[derive(Debug, Clone, PartialEq)]
 pub struct Hit<'a> {
     t: f64,
@@ -31,6 +33,10 @@ impl<'a> Hit<'a> {
         } else {
             self.partial_cmp(&other).unwrap()
         }
+    }
+
+    pub fn get_hit_record(&self, ray: &Ray) -> HitRecord {
+        HitRecord::new(self, ray)
     }
 }
 
