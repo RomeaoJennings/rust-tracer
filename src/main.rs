@@ -4,7 +4,7 @@ use rust_tracer::{
     cameras::Camera,
     lighting::PointLight,
     objects::{Hittable, Sphere},
-    primitives::{Canvas, Point, Ray, RgbColor, Vector, World},
+    primitives::{Canvas, Point, RgbColor, Vector, World},
     shading::Material,
 };
 
@@ -38,7 +38,7 @@ fn setup_world() -> World {
 }
 
 fn main() {
-    let canvas_pixels = 500;
+    let canvas_pixels = 1000;
 
     let mut canvas = Canvas::new(canvas_pixels, canvas_pixels, None);
     let world = setup_world();
@@ -46,7 +46,7 @@ fn main() {
     camera.set_position(
         &Point::new(3.0, 0.0, -5.),
         &Point::new(0., 0., 0.),
-        &Vector::new(0., 1., 0.),
+        &Vector::new(-0.3, 1., 0.),
     );
     for y in 0..canvas_pixels {
         for x in 0..canvas_pixels {

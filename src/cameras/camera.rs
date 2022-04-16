@@ -3,7 +3,6 @@ use crate::primitives::{Canvas, Point, Ray, SquareMatrix, Vector};
 pub struct Camera {
     height: usize,
     width: usize,
-    fov_in_radians: f64,
     transform: SquareMatrix,
     inverted: SquareMatrix,
     half_width: f64,
@@ -28,7 +27,6 @@ impl Camera {
         Camera {
             height: canvas.get_height(),
             width: canvas.get_width(),
-            fov_in_radians,
             transform: SquareMatrix::identity(4),
             inverted: SquareMatrix::identity(4),
             half_height,
