@@ -1,7 +1,10 @@
+use std::f64::consts::PI;
+
 use rust_tracer::{
+    cameras::Camera,
     lighting::PointLight,
     objects::{Hittable, Sphere},
-    primitives::{Canvas, Point, Ray, RgbColor, World},
+    primitives::{Canvas, Point, Ray, RgbColor, Vector, World},
     shading::Material,
 };
 
@@ -35,23 +38,19 @@ fn setup_world() -> World {
 }
 
 fn main() {
-    let ray_origin = Point::new(0., 0., -5.);
-    let wall_z = 8.0;
-    let wall_size = 7.0;
-
     let canvas_pixels = 500;
-    let pixel_size = wall_size / canvas_pixels as f64;
-    let half = wall_size / 2.0;
 
     let mut canvas = Canvas::new(canvas_pixels, canvas_pixels, None);
     let world = setup_world();
-
+    let mut camera = Camera::new(&canvas, PI / 8.0);
+    camera.set_position(
+        &Point::new(3.0, 0.0, -5.),
+        &Point::new(0., 0., 0.),
+        &Vector::new(0., 1., 0.),
+    );
     for y in 0..canvas_pixels {
-        let world_y = half - pixel_size * y as f64;
         for x in 0..canvas_pixels {
-            let world_x = -half + pixel_size * x as f64;
-            let position = Point::new(world_x, world_y, wall_z);
-            let ray = Ray::new(ray_origin.clone(), (&position - &ray_origin).get_normal());
+            let ray = camera.get_ray(x, y);
             let all_hits = world.get_hits(&ray);
 
             if let Some(hit) = World::get_first_visible_hit(&all_hits) {
