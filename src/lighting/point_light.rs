@@ -1,6 +1,6 @@
 use crate::{
-    primitives::{Point, RgbColor, Vector},
-    shading::Material,
+    objects::Hittable,
+    primitives::{HitRecord, Point, RgbColor},
 };
 
 pub struct PointLight {
@@ -24,17 +24,12 @@ impl PointLight {
         &self.intensity
     }
 
-    pub fn shade(
-        &self,
-        material: &Material,
-        point: &Point,
-        eyev: &Vector,
-        normalv: &Vector,
-    ) -> RgbColor {
+    pub fn shade(&self, record: &HitRecord) -> RgbColor {
+        let material = record.get_object().get_material();
         let effective_color = material.get_color() * &self.intensity;
-        let lightv = (&self.location - point).get_normal();
+        let lightv = (&self.location - record.get_hit_point()).get_normal();
         let ambient = &effective_color * material.get_ambient();
-        let light_dot_normal = &lightv * normalv;
+        let light_dot_normal = &lightv * record.get_normal();
         let diffuse: RgbColor;
         let specular: RgbColor;
         if light_dot_normal < 0. {
@@ -42,8 +37,8 @@ impl PointLight {
             specular = RgbColor::new(0., 0., 0.);
         } else {
             diffuse = &effective_color * (material.get_diffuse() * light_dot_normal);
-            let reflectv = (-&lightv).reflect(&normalv);
-            let reflect_dot_eye = &reflectv * eyev;
+            let reflectv = (-&lightv).reflect(record.get_normal());
+            let reflect_dot_eye = &reflectv * record.get_eye_vector();
             if reflect_dot_eye <= 0. {
                 specular = RgbColor::new(0., 0., 0.);
             } else {

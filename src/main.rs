@@ -22,9 +22,9 @@ fn setup_world() -> World {
     material1.set_color(RgbColor::new(0.9, 0.5, 0.2));
     shape1.set_material(material1);
 
-    let mut shape2 = Sphere::new(Point::new(0.5, 0.15, -0.3), 0.7);
+    let mut shape2 = Sphere::new(Point::new(0.5, 0.15, -0.3), 0.65);
     let mut material2 = Material::default();
-    material2.set_color(RgbColor::new(0.1, 0.1, 0.9));
+    material2.set_color(RgbColor::new(0.1, 0.7, 0.9));
     material2.set_shininess(50.);
     material2.set_specular(0.5);
     material2.set_diffuse(0.9);
@@ -55,13 +55,10 @@ fn main() {
             let all_hits = world.get_hits(&ray);
 
             if let Some(hit) = World::get_first_visible_hit(&all_hits) {
-                let point = ray.at(hit.get_t());
-                let normal = hit.get_object().get_normal(&point);
-                let eye = -ray.get_direction();
+                let record = hit.get_hit_record(&ray);
                 let mut color = RgbColor::new(0., 0., 0.);
                 for light in world.get_lights().iter() {
-                    color = &color
-                        + &light.shade(hit.get_object().get_material(), &point, &eye, &normal);
+                    color = &color + &light.shade(&record);
                 }
                 canvas.set_pixel(y, x, color);
             }
