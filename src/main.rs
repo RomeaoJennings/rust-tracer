@@ -6,6 +6,7 @@ use rust_tracer::{
     objects::{Hittable, Sphere},
     primitives::{Canvas, Point, RgbColor, Vector, World},
     shading::Material,
+    tracing::Tracer,
 };
 
 fn setup_world() -> World {
@@ -15,6 +16,10 @@ fn setup_world() -> World {
     world.add_light(PointLight::new(
         Point::new(10., -15., -10.),
         RgbColor::new(0.5, 0.5, 0.5),
+    ));
+    world.add_light(PointLight::new(
+        Point::new(10., 16., -10.),
+        RgbColor::new(0.6, 0.6, 0.6),
     ));
 
     let mut shape1 = Sphere::new(Point::new(-0.5, 0.0, 0.), 0.5);
@@ -38,9 +43,8 @@ fn setup_world() -> World {
 }
 
 fn main() {
-    let canvas_pixels = 1000;
 
-    let mut canvas = Canvas::new(canvas_pixels, canvas_pixels, None);
+    let mut canvas = Canvas::new(800, 600, None);
     let world = setup_world();
     let mut camera = Camera::new(&canvas, PI / 8.0);
     camera.set_position(
@@ -48,22 +52,7 @@ fn main() {
         &Point::new(0., 0., 0.),
         &Vector::new(-0.3, 1., 0.),
     );
-    for y in 0..canvas_pixels {
-        for x in 0..canvas_pixels {
-            let ray = camera.get_ray(x, y);
-            let all_hits = world.get_hits(&ray);
-
-            if let Some(hit) = World::get_first_visible_hit(&all_hits) {
-                let record = hit.get_hit_record(&ray);
-                let mut color = RgbColor::new(0., 0., 0.);
-                for light in world.get_lights().iter() {
-                    color = &color + &light.shade(&record);
-                }
-                canvas.set_pixel(y, x, color);
-            }
-        }
-    }
-    canvas.correct_colors();
+    Tracer::trace_world(&world, &camera, &mut canvas);
     let result = canvas.to_ppm("C:/Users/romea/source/rust-tracer/output.ppm");
     if result.is_err() {
         println!("{:?}", result.err());
