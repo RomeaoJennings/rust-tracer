@@ -29,6 +29,9 @@ impl PointLight {
         let effective_color = material.get_color() * &self.intensity;
         let lightv = (&self.location - record.get_hit_point()).get_normal();
         let ambient = &effective_color * material.get_ambient();
+        if record.get_is_in_shadow() {
+            return ambient;
+        }
         let light_dot_normal = &lightv * record.get_normal();
         let diffuse: RgbColor;
         let specular: RgbColor;

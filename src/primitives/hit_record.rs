@@ -9,6 +9,7 @@ pub struct HitRecord<'a> {
     eye_vector: Vector,
     normal_vector: Vector,
     is_inside: bool,
+    is_in_shadow: bool,
 }
 
 impl<'a> HitRecord<'a> {
@@ -32,6 +33,7 @@ impl<'a> HitRecord<'a> {
             hit_point,
             eye_vector,
             is_inside,
+            is_in_shadow: false,
         }
     }
 
@@ -57,5 +59,13 @@ impl<'a> HitRecord<'a> {
 
     pub fn get_is_inside(&self) -> bool {
         self.is_inside
+    }
+
+    pub fn get_is_in_shadow(&self)->bool {
+        self.is_in_shadow
+    }
+
+    pub fn set_is_in_shadow(&mut self, is_in_shadow: bool) {
+        self.is_in_shadow = is_in_shadow;
     }
 }
